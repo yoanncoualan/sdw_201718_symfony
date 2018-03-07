@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Ma super page
+{% endblock %}
+
+{% block body %}
+  {# En twig, les deux accolades permettent d'écrire #}
+
+  {% if categories is empty %}
+    <p>{{ 'categorie.nb'|transchoice(0) }}</p>
+  {% else %}
+    <p>{{ 'categorie.nb'|transchoice(categories|length, {'%nb%': categories|length}) }}</p>
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nom</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category in categories %}
+        <tr>
+          <td>
+            {{ category.name }}
+          </td>
+          <td>
+            {{ category.description }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% endif %}
+
+  {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.save) }}
+  {{ form_end(form) }}
+
+{% endblock %}

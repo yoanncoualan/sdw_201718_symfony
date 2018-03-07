@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome!{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
+    {% block stylesheets %}{% endblock %}
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+  </head>
+  <body>
+
+    {% for type, message in app.flashes %}
+      <div class="alert alert-{{ type }}" role="alert">
+        {{ message[0] }}
+      </div>
+    {% endfor %}
+
+    {% block body %}{% endblock %}
+
+    <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
+    {% block javascripts %}{% endblock %}
+  </body>
+</html>
