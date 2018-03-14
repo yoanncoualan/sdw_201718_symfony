@@ -108,8 +108,9 @@ class DefaultController extends Controller
 
   /**
    * @Route("/category/{id}", name="category")
+   * @Template()
    */
-  public function categoryAction(){
+  public function categoryAction(Request $request, $id){
     return array('id' => $id);
   }
 }
