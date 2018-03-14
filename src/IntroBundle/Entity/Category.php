@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Category
  *
@@ -38,6 +40,15 @@ class Category
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
+     */
+    private $articles;
+
+    public function __construct() {
+      $this->articles = new ArrayCollection();
+    }
 
 
     /**
@@ -98,5 +109,7 @@ class Category
         return $this->description;
     }
 
-
+    public function getArticles(){
+      return $this->articles;
+    }
 }

@@ -1,3 +1,9 @@
 categorie:
   title: Catégories
   nb: "{0} Il n'y a pas de catégories |{1} Il y a 1 catégorie |[1, Inf[ Il y a %nb% catégories"
+  added: Catégorie ajoutée
+
+articles:
+  title: Articles
+  nb: "{0} Il n'y a pas d'articles |{1} Il y a 1 article |[1, Inf[ Il y a %nb% articles"
+  added: Article ajouté

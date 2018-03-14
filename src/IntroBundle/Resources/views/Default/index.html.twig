@@ -22,7 +22,9 @@
       {% for category in categories %}
         <tr>
           <td>
-            {{ category.name }}
+            <a href="{{ path('category', {'id': category.id}) }}">
+              {{ category.name }}
+            </a>
           </td>
           <td>
             {{ category.description }}

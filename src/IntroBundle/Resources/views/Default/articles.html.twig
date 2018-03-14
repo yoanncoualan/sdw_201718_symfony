@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Articles
+{% endblock %}
+
+{% block body %}
+
+  <h1>{{ 'articles.title'|trans }}</h1>
+
+  {{dump(articles)}}
+
+  {% if articles is empty %}
+    {{ 'articles.nb'|transchoice(articles|length) }}
+  {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Titre</th>
+          <th scope="col">Contenu</th>
+          <th scope="col">Publication</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for article in articles %}
+          <tr>
+            <td>{{article.titre}}</td>
+            <td>{{article.contenu}}</td>
+            <td>{{ article.publication|date('d/m/Y') }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+  {{form_start(form)}}
+    {{form_widget(form)}}
+  {{form_end(form)}}
+
+{% endblock %}
