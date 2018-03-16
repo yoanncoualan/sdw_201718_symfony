@@ -6,6 +6,41 @@
 
 {% block body %}
 
-  {{dump(id)}}
+  {% if category is not empty %}
+    <h1>{{category.name}}</h1>
+    <p>{{category.description}}</p>
+
+    {% if category.articles is not empty %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Titre</th>
+            <th scope="col">Contenu</th>
+            <th scope="col">Publication</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for article in category.articles %}
+            <tr>
+              <td>{{article.titre}}</td>
+              <td>{{article.contenu}}</td>
+              <td>{{ article.publication|date('d/m/Y') }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Cette catégorie n'a aucun article</p>
+    {% endif %}
+
+    {{form_start(form_edition)}}
+      {{form_widget(form_edition)}}
+    {{form_end(form_edition)}}
+
+    <a href="{{ path('delete_category', {'id': category.id}) }}" class="btn btn-danger">Supprimer la catégorie</a>
+
+  {% else %}
+    <p>Cette catégorie n'existe pas</p>
+  {% endif %}
 
 {% endblock %}

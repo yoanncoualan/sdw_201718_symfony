@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 class DefaultController extends Controller
@@ -111,6 +112,70 @@ class DefaultController extends Controller
    * @Template()
    */
   public function categoryAction(Request $request, $id){
-    return array('id' => $id);
+    $em = $this->getDoctrine()->getManager();
+
+    $category = $em->getRepository('IntroBundle:Category')->findOneById($id);
+
+    $form = $this->createFormBuilder($category)
+      ->add('name', TextType::class)
+      ->add('description', TextareaType::class, array(
+        'required' => false
+      ))
+      ->add('save', SubmitType::class, array(
+        'label' => 'Ajouter une catégorie'
+      ))
+      ->getForm();
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      // Formulaire envoyé et valide
+
+      $em->persist($category);
+      $em->flush();
+
+      $traduction = $this->get('translator');
+
+      $this->get('session')->getFlashBag()->add(
+        'success',
+        $traduction->trans('categorie.updated')
+      );
+    }
+
+    return array(
+      'category' => $category,
+      'form_edition' => $form->createView()
+    );
+  }
+
+  /**
+   * @Route("/category/delete/{id}", name="delete_category")
+   */
+  public function deleteCategory(Request $request, $id){
+
+    $bdd = $this->getDoctrine()->getManager();
+    $traduction = $this->get('translator');
+
+    $category = $bdd->getRepository('IntroBundle:Category')->findOneById($id);
+
+    if(!empty($category)){
+      // La catégorie existe
+      $bdd->remove($category);
+      $bdd->flush();
+
+      $this->get('session')->getFlashBag()->add(
+        'success',
+        $traduction->trans('categorie.deleted')
+      );
+    }
+    else{
+      // La catégorie n'existe pas
+      $this->get('session')->getFlashBag()->add(
+        'danger',
+        $traduction->trans('categorie.unknown')
+      );
+    }
+
+    return $this->redirectToRoute('home');
   }
 }

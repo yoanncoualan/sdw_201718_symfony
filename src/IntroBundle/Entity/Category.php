@@ -42,7 +42,7 @@ class Category
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="category", cascade={"persist", "remove"})
      */
     private $articles;
 
