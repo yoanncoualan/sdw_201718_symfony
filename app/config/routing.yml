@@ -1,3 +1,8 @@
+sport:
+    resource: "@SportBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 intro:
     resource: "@IntroBundle/Controller/"
     type:     annotation

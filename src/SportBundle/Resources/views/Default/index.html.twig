@@ -1,0 +1,46 @@
+{% extends 'base_sport.html.twig' %}
+
+{% block body %}
+  <h1>Matchs</h1>
+  {% if matchs is not empty %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Match</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for match in matchs %}
+          <tr>
+            <td>
+              <a href="{{ path('match', {'id': match.id}) }}">
+                {{match.dateMatch|date('d/m/Y')}}
+              </a>
+            </td>
+            <td>
+              {% if match.equipe1 is not empty %}
+                <a href="{{ path('equipe', {'id': match.equipe1.id}) }}">{{match.equipe1.nom}}</a>
+              {% else %}
+                Equipe supprimée
+              {% endif %}
+              {{match.scoreEquipe1}} - {{match.scoreEquipe2}}
+              {% if match.equipe2 is not empty %}
+                <a href="{{ path('equipe', {'id': match.equipe2.id}) }}">{{match.equipe2.nom}}</a>
+              {% else %}
+                Equipe supprimée
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Il n'y a aucun match</p>
+  {% endif %}
+
+  <h2>Ajouter un match</h2>
+  {{ form_start(form) }}
+    {{ form_widget(form) }}
+  {{ form_end(form) }}
+{% endblock %}

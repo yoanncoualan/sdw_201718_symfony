@@ -1,0 +1,58 @@
+{% extends 'base_sport.html.twig' %}
+
+{% block body %}
+  {% if equipe is not empty %}
+    <h1>{{equipe.nom}}</h1>
+    <p>L'équipe contient {{equipe.joueurs|length}} joueurs</p>
+
+    {% set matchs_gagnes = 0 %}
+    {% set matchs_perdus = 0 %}
+    {# je parcours tous les matchs pour calculer le nombre de matchs gagnés et perdus #}
+    {% for match in equipe.vs1 %}
+      {% if match.scoreEquipe1 > match.scoreEquipe2 %}
+        {% set matchs_gagnes = matchs_gagnes + 1 %}
+      {% elseif match.scoreEquipe1 < match.scoreEquipe2 %}
+        {% set matchs_perdus = matchs_perdus + 1 %}
+      {% endif %}
+    {% endfor %}
+    {% for match in equipe.vs2 %}
+      {% if match.scoreEquipe1 > match.scoreEquipe2 %}
+        {% set matchs_perdus = matchs_perdus + 1 %}
+      {% elseif match.scoreEquipe1 < match.scoreEquipe2 %}
+        {% set matchs_gagnes = matchs_gagnes + 1 %}
+      {% endif %}
+    {% endfor %}
+    <p>L'équipe à gagné {{matchs_gagnes}} matchs</p>
+    <p>L'équipe à perdu {{matchs_perdus}} matchs</p>
+
+    {% if equipe.joueurs is not empty %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Nom</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for joueur in equipe.joueurs %}
+            <tr>
+              <td>
+                <a href="{{ path('joueur', {'id': joueur.id}) }}">
+                  {{joueur.prenom}} {{joueur.nom}}
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+    <h2>Modifier {{equipe.nom}}</h2>
+    {{ form_start(form) }}
+      {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <a href="{{ path('delete_equipe', {'id':equipe.id}) }}" class="btn btn-danger">Supprimer</a>
+  {% else %}
+    <p>Cette équipe n'existe pas</p>
+  {% endif %}
+{% endblock %}

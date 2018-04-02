@@ -1,0 +1,32 @@
+{% extends 'base_sport.html.twig' %}
+
+{% block body %}
+  <h1>Equipes</h1>
+  {% if equipes is not empty %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Nom</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for equipe in equipes %}
+          <tr>
+            <td>
+              <a href="{{ path('equipe', {'id': equipe.id}) }}">
+                {{equipe.nom}}
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Il n'y a aucune équipe</p>
+  {% endif %}
+
+  <h2>Ajouter une équipe</h2>
+  {{ form_start(form) }}
+    {{ form_widget(form) }}
+  {{ form_end(form) }}
+{% endblock %}

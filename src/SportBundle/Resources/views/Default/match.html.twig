@@ -1,0 +1,14 @@
+{% extends 'base_sport.html.twig' %}
+
+{% block body %}
+  {% if match is not empty %}
+    <h1>Match du {{match.dateMatch|date('d/m/Y')}}</h1>
+    {{ form_start(form) }}
+      {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <a href="{{ path('delete_match', {'id':match.id}) }}" class="btn btn-danger">Supprimer</a>
+  {% else %}
+    <p>Ce match n'existe pas</p>
+  {% endif %}
+{% endblock %}

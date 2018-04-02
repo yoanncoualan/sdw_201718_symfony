@@ -1,0 +1,14 @@
+{% extends 'base_sport.html.twig' %}
+
+{% block body %}
+  {% if joueur is not empty %}
+    <h1>{{joueur.nom}}</h1>
+    {{ form_start(form) }}
+      {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <a href="{{ path('delete_joueur', {'id':joueur.id}) }}" class="btn btn-danger">Supprimer</a>
+  {% else %}
+    <p>Cette équipe n'existe pas</p>
+  {% endif %}
+{% endblock %}
